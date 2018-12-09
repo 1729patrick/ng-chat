@@ -1,16 +1,13 @@
 // ***** APENAS MODULOS NECESSARIOS PARA INICIAR A APLICACAO  -> core-module *****
 
-import  {NgModule, Optional, SkipSelf } from '@angular/core';
+import { NgModule, Optional, SkipSelf } from '@angular/core';
 
-import { ApolloConfigModule } from '../apollo-config.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatListModule, MatToolbarModule } from '@angular/material';
+import { ApolloConfigModule } from '../apollo-config.module';
 
 @NgModule({
     exports: [
         BrowserAnimationsModule,
-        MatToolbarModule,
-        MatListModule,
         ApolloConfigModule
     ]
 })

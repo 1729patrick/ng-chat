@@ -1,21 +1,19 @@
 import { Component } from '@angular/core';
-// import {HttpClient} from '@angular/common/http';
-import {Apollo} from 'apollo-angular';
-import gql from 'graphql-tag';
 
 @Component({
     selector: 'app-root',
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.scss']
+    template: `        
+    <app-login></app-login>
+    `,
 })
 export class AppComponent {
     // private apiURL = 'https://api.graph.cool/simple/v1/cjjt5rckb3ldu0139inss7zve';
 
     constructor(
         // private http: HttpClient,
-        private apollo: Apollo
+        // private apollo: Apollo
     ){
-        this.allUsers();
+        // this.allUsers();
     }
 
 
@@ -67,46 +65,46 @@ export class AppComponent {
 
 
 // ***** GRAPHQL COM REQUISIÇÕES COM APOLLO *****
-    public allUsers(): void {
-        this.apollo.query({
-            query: gql`
-                query {
-                    allUsers{
-                        id
-                        name
-                        email
-                        password
-                    }
-                }
-            `
-        }).subscribe(data => console.log('Query ',data));
-    }
+//     public allUsers(): void {
+//         this.apollo.query({
+//             query: gql`
+//                 query {
+//                     allUsers{
+//                         id
+//                         name
+//                         email
+//                         password
+//                     }
+//                 }
+//             `
+//         }).subscribe(data => console.log('Query ',data));
+//     }
 
 
-    private createUser(): void {
-        this.apollo.mutate({
-            mutation: gql`
-                mutation CreateNewUser($name: String!, $email: String!, $password: String!) {
-                    createUser(
-                        name: $name
-                        email: $email
-                        password: $password
-                    ){
-                        id
-                        name
-                        email
-                    }
-                }
-            `,
-            variables:  {
-                name: 'Spice Old',
-                email: 'spiceold@work.com',
-                password: 'oldspice'
-            }
-        }).subscribe(
-            data => console.log('Mutation ', data),
-            error => console.log(error),
-            () => this.allUsers()
-        );
-    }
+    // private createUser(): void {
+    //     this.apollo.mutate({
+    //         mutation: gql`
+    //             mutation CreateNewUser($name: String!, $email: String!, $password: String!) {
+    //                 createUser(
+    //                     name: $name
+    //                     email: $email
+    //                     password: $password
+    //                 ){
+    //                     id
+    //                     name
+    //                     email
+    //                 }
+    //             }
+    //         `,
+    //         variables:  {
+    //             name: 'Spice Old',
+    //             email: 'spiceold@work.com',
+    //             password: 'oldspice'
+    //         }
+    //     }).subscribe(
+    //         data => console.log('Mutation ', data),
+    //         error => console.log(error),
+    //         () => this.allUsers()
+    //     );
+    // }
 }

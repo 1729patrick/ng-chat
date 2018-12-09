@@ -1,0 +1,47 @@
+<div class="login-container">
+
+    <mat-card>
+
+        <mat-card-title>
+            <mat-toolbar color="primary">{{configs.actionText}}</mat-toolbar>
+        </mat-card-title>
+
+        <mat-card-content>
+
+            <form (submit)="onSubmit()" [formGroup]="loginForm">
+
+                <mat-form-field *ngIf="!configs.isLogin">
+                    <input formControlName="name" matInput type="text" placeholder="Nome">
+                    <mat-error *ngIf="name.hasError('required')">
+                        Campo obrigátorio.
+                    </mat-error>
+                </mat-form-field>
+
+
+                <mat-form-field>
+                    <input formControlName="email" matInput type="email" placeholder="E-mail">
+                    <mat-error *ngIf="email.hasError('required')">
+                        Campo obrigátorio.
+                    </mat-error>
+                    <mat-error *ngIf="email.hasError('email')">
+                        E-mail inválido.
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <input formControlName="password" matInput type="password" placeholder="Senha">
+                    <mat-error *ngIf="password.hasError('required')">
+                        Campo obrigátorio.
+                    </mat-error>
+                </mat-form-field>
+
+                <button type="submit" mat-button [disabled]="loginForm.invalid">{{configs.actionText}}</button>
+                <button type="button" mat-button color="primary" (click)="changeAction()">{{configs.buttonActionText}}</button>
+            </form>
+
+            {{loginForm.value | json}}
+
+        </mat-card-content>
+    </mat-card>
+
+</div>
