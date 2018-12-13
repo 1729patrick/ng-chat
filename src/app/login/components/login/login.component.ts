@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../../core/services/auth.service';
+import {ErrorService} from '../../../core/services/error.service';
+import {MatSnackBar} from '@angular/material';
 
 @Component({
     selector: 'app-login',
@@ -18,7 +20,9 @@ export class LoginComponent implements OnInit {
     private nameControl = new FormControl('', [Validators.required]);
     constructor(
         private formBuilder: FormBuilder,
-        private authService: AuthService
+        private authService: AuthService,
+        private errorService: ErrorService,
+        private snackbar: MatSnackBar
     ) { }
 
     ngOnInit() {
@@ -35,6 +39,14 @@ export class LoginComponent implements OnInit {
     onSubmit(): void {
         console.log(this.loginForm.value);
         console.log(this.loginForm.valid);
+
+        const operation = this.configs.isLogin? this.authService.signInUser(this.loginForm.value) : this.authService.signUpUser(this.loginForm.value);
+
+        operation.subscribe(res => {
+            console.log(res);
+        }, error => {
+            this.snackbar.open(this.errorService.getErrorMessage(error), "Done", {duration: 2500});
+        });
     }
 
     changeAction(): void {

@@ -13,13 +13,13 @@ export class AuthService {
         private apollo: Apollo
     ) {
 
-        this.signInUser({email: 'patrick@flexpro.com.br', password: 'patrick'}).subscribe(data=> {
-            console.log(data);
-        });
-
-        this.signUpUser({name: 'Patrick Battisti', email: 'p@b.com', password: 'patrick'}).subscribe(data=> {
-            console.log(data);
-        });
+        // this.signInUser({email: 'patrick@flexpro.com.br', password: 'patrick'}).subscribe(data=> {
+        //     console.log(data);
+        // });
+        //
+        // this.signUpUser({name: 'Patrick Battisti', email: 'p@b.com', password: 'patrick'}).subscribe(data=> {
+        //     console.log(data);
+        // });
     }
 
     signInUser(variables: {email: string, password: string}): Observable<{id: string, token: string}> {
