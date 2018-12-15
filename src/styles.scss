@@ -2,3 +2,12 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: 'Roboto', sans-serif; }
+
+
+.app-login-spinner .mat-spinner circle {
+  stroke: white;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}

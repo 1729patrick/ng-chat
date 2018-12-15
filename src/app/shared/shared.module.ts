@@ -1,6 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {MatButtonModule, MatCardModule, MatFormFieldModule, MatInputModule, MatSnackBarModule, MatToolbarModule} from '@angular/material';
+import {
+    MatButtonModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatProgressSpinnerModule,
+    MatSnackBarModule,
+    MatToolbarModule
+} from '@angular/material';
 import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
@@ -10,9 +18,11 @@ import { ReactiveFormsModule } from '@angular/forms';
         MatCardModule,
         MatFormFieldModule,
         MatInputModule,
+        MatProgressSpinnerModule,
         MatToolbarModule,
         MatSnackBarModule,
         ReactiveFormsModule,
+
     ],
 })
 export class SharedModule { }

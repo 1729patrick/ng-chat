@@ -1,11 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, HostBinding, OnInit} from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../../core/services/auth.service';
 import {ErrorService} from '../../../core/services/error.service';
 import {MatSnackBar} from '@angular/material';
 
 @Component({
-    selector: 'app-login',
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss']
 })
@@ -15,9 +14,12 @@ export class LoginComponent implements OnInit {
     configs = {
         isLogin: true,
         actionText: 'Entrar',
-        buttonActionText: 'Criar conta'
+        buttonActionText: 'Criar conta',
+        isLoading: false
     };
     private nameControl = new FormControl('', [Validators.required]);
+
+    @HostBinding('class.app-login-spinner') private applySpinnerClass = true; //aula 84 => para obter acesso ao componente sem o uso do selector
     constructor(
         private formBuilder: FormBuilder,
         private authService: AuthService,
@@ -40,12 +42,15 @@ export class LoginComponent implements OnInit {
         console.log(this.loginForm.value);
         console.log(this.loginForm.valid);
 
+        this.configs.isLoading = true;
         const operation = this.configs.isLogin? this.authService.signInUser(this.loginForm.value) : this.authService.signUpUser(this.loginForm.value);
 
         operation.subscribe(res => {
             console.log(res);
+            this.configs.isLoading = false;
         }, error => {
             this.snackbar.open(this.errorService.getErrorMessage(error), "Done", {duration: 2500});
+            this.configs.isLoading = false;
         });
     }
 
