@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { AuthService } from '../../../core/services/auth.service';
 import {ErrorService} from '../../../core/services/error.service';
 import {MatSnackBar} from '@angular/material';
+import {Router} from '@angular/router';
 
 @Component({
     templateUrl: './login.component.html',
@@ -24,7 +25,8 @@ export class LoginComponent implements OnInit {
         private formBuilder: FormBuilder,
         private authService: AuthService,
         private errorService: ErrorService,
-        private snackbar: MatSnackBar
+        private snackbar: MatSnackBar,
+        private router: Router
     ) { }
 
     ngOnInit() {
@@ -46,7 +48,11 @@ export class LoginComponent implements OnInit {
         const operation = this.configs.isLogin? this.authService.signInUser(this.loginForm.value) : this.authService.signUpUser(this.loginForm.value);
 
         operation.subscribe(res => {
-            console.log(res);
+            const redirect: string = this.authService.redirectUrl || '/dashboard';
+            this.authService.redirectUrl = null;
+
+            this.router.navigate([redirect]);
+
             this.configs.isLoading = false;
         }, error => {
             this.snackbar.open(this.errorService.getErrorMessage(error), "Done", {duration: 2500});
