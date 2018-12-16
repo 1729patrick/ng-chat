@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit {
     @HostBinding('class.app-login-spinner') private applySpinnerClass = true; //aula 84 => para obter acesso ao componente sem o uso do selector
     constructor(
         private formBuilder: FormBuilder,
-        private authService: AuthService,
+        public authService: AuthService,
         private errorService: ErrorService,
         private snackbar: MatSnackBar,
         private router: Router

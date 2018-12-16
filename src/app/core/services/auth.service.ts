@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import {Observable, ReplaySubject, throwError} from 'rxjs';
+import {Observable, pipe, ReplaySubject, throwError} from 'rxjs';
 import { Apollo } from 'apollo-angular';
-import { AUTHENTICATE_USER_MUTATION, SIGNUP_USER_MUTATION } from './auth.graphql';
+import {AUTHENTICATE_USER_MUTATION, LOGGED_IN_USER_QUERY, LoggedInUserQuery, SIGNUP_USER_MUTATION} from './auth.graphql';
 import {catchError, map, tap} from 'rxjs/operators';
 import {StorageKeys} from '../../storage-keys';
 
@@ -11,6 +11,7 @@ import {StorageKeys} from '../../storage-keys';
 export class AuthService {
 
     redirectUrl: string;
+    keepSigned: boolean;
     private _isAuthenticated = new ReplaySubject<boolean>(1);
 
     constructor(
@@ -25,9 +26,15 @@ export class AuthService {
         //     console.log(data);
         // });
 
-        this.isAuthenticated.subscribe(res => {
-            console.log('_isAuthenticated', res);
-        });
+        // this.isAuthenticated.subscribe(res => {
+        //     console.log('_isAuthenticated', res);
+        // });
+
+        this.init();
+    }
+
+    init(): void {
+        this.keepSigned = JSON.parse(window.localStorage.getItem(StorageKeys.KEEP_SIGNED));
     }
 
     get isAuthenticated(): Observable<boolean> {
@@ -67,5 +74,22 @@ export class AuthService {
             window.localStorage.setItem(StorageKeys.AUTH_TOKEN, authData.token);
         }
         this._isAuthenticated.next(authData.isAuthenticated);
+    }
+
+    toggleKeepSigned(): void {
+        this.keepSigned = !this.keepSigned;
+        window.localStorage.setItem(StorageKeys.KEEP_SIGNED, this.keepSigned.toString());
+    }
+
+    private validateToken(): Observable<{id: string, isAuthenticated: boolean}> {
+        return this.apollo.query<LoggedInUserQuery>({
+            query: LOGGED_IN_USER_QUERY
+        }).pipe(
+            map(res => {
+                const user = res.data.loggedInUser;
+    
+                return {id: user && user.id, isAuthenticated: user !== null};
+            })
+        );
     }
 }

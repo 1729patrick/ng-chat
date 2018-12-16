@@ -38,12 +38,11 @@
                     </mat-error>
                 </mat-form-field>
 
+                <mat-slide-toggle [checked]="authService.keepSigned" (change)="authService.toggleKeepSigned()">Permanecer logado.</mat-slide-toggle>
+
                 <button type="submit" mat-button [disabled]="loginForm.invalid">{{configs.actionText}}</button>
                 <button type="button" mat-button color="primary" (click)="changeAction()">{{configs.buttonActionText}}</button>
             </form>
-
-            {{loginForm.value | json}}
-
         </mat-card-content>
     </mat-card>
 
