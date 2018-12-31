@@ -4,6 +4,7 @@ import { AuthService } from '../../../core/services/auth.service';
 import {ErrorService} from '../../../core/services/error.service';
 import {MatSnackBar} from '@angular/material';
 import {Router} from '@angular/router';
+import {StorageKeys} from '../../../storage-keys';
 
 @Component({
     templateUrl: './login.component.html',
@@ -31,6 +32,13 @@ export class LoginComponent implements OnInit {
 
     ngOnInit() {
         this.createForm();
+
+        const userData = this.authService.getRememberMe();
+
+        if(userData) {
+            this.email.setValue(userData.email);
+            this.password.setValue(userData.password);
+        }
     }
 
     createForm(): void {
@@ -48,6 +56,8 @@ export class LoginComponent implements OnInit {
         const operation = this.configs.isLogin? this.authService.signInUser(this.loginForm.value) : this.authService.signUpUser(this.loginForm.value);
 
         operation.subscribe(res => {
+            this.authService.setRememberMe(this.loginForm.value);
+
             const redirect: string = this.authService.redirectUrl || '/dashboard';
             this.authService.redirectUrl = null;
 

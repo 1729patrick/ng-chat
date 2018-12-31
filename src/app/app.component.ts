@@ -1,17 +1,36 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {AuthService} from './core/services/auth.service';
+import {take} from 'rxjs/operators';
+import {ErrorService} from './core/services/error.service';
+import {MatSnackBar} from '@angular/material';
 
 @Component({
     selector: 'app-root',
     template: `<router-outlet></router-outlet>`,
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
     // private apiURL = 'https://api.graph.cool/simple/v1/cjjt5rckb3ldu0139inss7zve';
 
     constructor(
         // private http: HttpClient,
         // private apollo: Apollo
+
+        private authService: AuthService,
+        private errorService: ErrorService,
+        private snackbar: MatSnackBar
     ){
         // this.allUsers();
+
+    }
+
+    ngOnInit(): void {
+        this.authService.autoLogin()
+            .pipe(
+                take(1))
+            .subscribe(null, error => {
+                const message = this.errorService.getErrorMessage(error);
+                this.snackbar.open(message, 'Fechar', {duration: 3000});
+            });
     }
 
 

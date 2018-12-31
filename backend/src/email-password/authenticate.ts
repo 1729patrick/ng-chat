@@ -2,7 +2,7 @@ import Graphcool, { fromEvent, FunctionEvent } from 'graphcool-lib';
 import { GraphQLClient } from 'graphql-request';
 import * as bcrypt from 'bcryptjs';
 
-interface User {
+ User {
   id: string;
   password: string;
 }
